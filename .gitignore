@@ -5,3 +5,4 @@ build/
 dist/
 __pycache__/
 pydimz.egg-info/
+dimz.egg-info/

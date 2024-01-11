@@ -19,7 +19,7 @@ with open("README.md", "r", encoding="utf-8") as file:
 
 def main() -> None:
     setuptools.setup(
-        name="pydimz",
+        name="dimz",
         version=pydimz.__version__,
         author="Brandon Pacewic",
         description="",
