@@ -35,7 +35,7 @@ def gen_line_table(dir: str = os.getcwd()) -> List[List[str | int]]:
                 table.append([
                     relfilepath,
                     line_count,
-                    token_count / line_count,
+                    token_count / line_count if line_count else 0,
                 ])
 
     return sorted(table, key=lambda x: -x[1])
