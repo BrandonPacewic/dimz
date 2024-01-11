@@ -3,7 +3,7 @@
 Basic python command line tool for counting the number of lines of code in any given directory.
 
 ```
- $ dimz
+$ dimz
 File Name                Lines    Tokens    Tokens / Line
 ---------------------  -------  --------  ---------------
 pydimz/__main__.py          38       326             8.58
