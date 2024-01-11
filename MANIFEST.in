@@ -1,0 +1,4 @@
+include pydimz/**/*.py
+include COPYRIGHT.txt
+include LICENSE.txt
+include README.md
