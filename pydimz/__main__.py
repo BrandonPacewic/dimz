@@ -28,14 +28,17 @@ def gen_line_table(dir: str = os.getcwd()) -> List[List[str | int]]:
             relfilepath = os.path.relpath(filepath, dir)
 
             with tokenize.open(filepath) as file:
-                tokens = [t for t in tokenize.generate_tokens(
-                    file.readline) if t.type in TOKEN_WHITELIST]
-                token_count, line_count = len(tokens), len(
-                    set([t.start[0] for t in tokens]))
-                table.append([relfilepath, line_count,
-                             token_count / line_count])
+                tokenized = tokenize.generate_tokens(file.readline)
+                tokens = [t for t in tokenized if t.type in TOKEN_WHITELIST]
+                token_count = len(tokens)
+                line_count = len(set([t.start[0] for t in tokens]))
+                table.append([
+                    relfilepath,
+                    line_count,
+                    token_count / line_count,
+                ])
 
-    return table
+    return sorted(table, key=lambda x: -x[1])
 
 
 def main(args: List[str] = sys.argv[1:]) -> None:
@@ -46,17 +49,8 @@ def main(args: List[str] = sys.argv[1:]) -> None:
     headers = ["File Name", "Lines", "Tokens / Line"]
     table = gen_line_table(args[0] if len(args) else os.getcwd())
 
-    print(
-        tabulate(
-            [headers] +
-            sorted(
-                table,
-                key=lambda x: -
-                x[1]),
-            headers="firstrow",
-            floatfmt=".2f") +
-        "\n")
-    print(f"Total Line Count: {sum([x[1] for x in table])}")
+    print(tabulate([headers] + table, headers="firstrow", floatfmt=".2f"))
+    print(f"\nTotal Line Count: {sum([x[1] for x in table])}")
 
 
 if __name__ == "__main__":
