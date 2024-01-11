@@ -4,7 +4,7 @@
 import os
 
 FORMAT_COMMAND = "autopep8 --in-place --aggressive --aggressive"
-FILE_TARGETS = ["lines/*.py", "tools/*.py", "setup.py"]
+FILE_TARGETS = ["pydimz/*.py", "tools/*.py", "setup.py"]
 
 
 def main():
