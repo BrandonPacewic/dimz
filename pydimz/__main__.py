@@ -16,7 +16,7 @@ from typing import List
 TOKEN_WHITELIST = [token.OP, token.NAME, token.NUMBER, token.STRING]
 
 
-def gen_line_table(dir: str = os.getcwd()) -> List[List[str | int]]:
+def gen_dim_table(dir: str = os.getcwd()) -> List[List[str | int]]:
     table: List[List[str | int]] = []
 
     for path, _, files in os.walk(dir):
@@ -35,6 +35,7 @@ def gen_line_table(dir: str = os.getcwd()) -> List[List[str | int]]:
                 table.append([
                     relfilepath,
                     line_count,
+                    token_count,
                     token_count / line_count if line_count else 0,
                 ])
 
@@ -46,8 +47,8 @@ def main(args: List[str] = sys.argv[1:]) -> None:
         print("Help: list <dir to give stats on>")
         sys.exit(1)
 
-    headers = ["File Name", "Lines", "Tokens / Line"]
-    table = gen_line_table(args[0] if len(args) else os.getcwd())
+    headers = ["File Name", "Lines", "Tokens", "Tokens / Line"]
+    table = gen_dim_table(args[0] if len(args) else os.getcwd())
 
     print(tabulate([headers] + table, headers="firstrow", floatfmt=".2f"))
     print(f"\nTotal Line Count: {sum([x[1] for x in table])}")
