@@ -1,6 +1,6 @@
 # :100: pydimz
 
-Basic python command line tool for counting the number of lines of code in any given directory.
+CLI tool for counting the number of lines of code in any given directory.
 
 ```
 $ dimz
