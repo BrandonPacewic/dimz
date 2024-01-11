@@ -4,4 +4,4 @@
 build/
 dist/
 __pycache__/
-lines.egg-info/
+pydimz.egg-info/

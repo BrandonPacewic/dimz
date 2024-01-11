@@ -5,7 +5,7 @@ import setuptools
 import sys
 
 try:
-    import lines
+    import pydimz
 except ImportError:
     print("Error importing pylines")
     sys.exit(1)
@@ -13,11 +13,14 @@ except ImportError:
 with open("README.md", "r", encoding="utf-8") as file:
     long_description = file.read()
 
+    # Remove emoji from pypi package readme.
+    long_description = f"#{long_description[7:]}"
+
 
 def main() -> None:
     setuptools.setup(
-        name="pylines",
-        version=lines.__version__,
+        name="pydimz",
+        version=pydimz.__version__,
         author="Brandon Pacewic",
         description="",
         long_description_content_type="text/markdown",
@@ -27,11 +30,11 @@ def main() -> None:
             "Programming Language :: Python :: 3",
             "License :: OSI Approved :: MIT License",
         ],
-        url="https://github.com/BrandonPacewic/pylines",
-        packages=["pylines"],
+        url="https://github.com/BrandonPacewic/pydimz",
+        packages=["pydimz"],
         entry_points={
             "console_scripts": [
-                "lines=lines.__main__:main",
+                "dimz=pydimz.__main__:main",
             ],
         },
         python_requires=">=3.10",

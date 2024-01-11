@@ -1,2 +1,0 @@
-# Copyright (c) Brandon Pacewic
-# SPDX-License-Identifier: MIT
