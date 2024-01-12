@@ -52,6 +52,7 @@ def main(args: List[str] = sys.argv[1:]) -> None:
 
     print(tabulate([headers] + table, headers="firstrow", floatfmt=".2f"))
     print(f"\nTotal Line Count: {sum([x[1] for x in table])}")
+    print(f"Total Token Count: {sum([x[2] for x in table])}")
 
 
 if __name__ == "__main__":
