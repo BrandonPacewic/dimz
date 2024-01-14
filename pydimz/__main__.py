@@ -53,21 +53,26 @@ def gen_dim_table(dir: str = os.getcwd()) -> List[FileData]:
             filepath = os.path.join(path, filename)
             relfilepath = os.path.relpath(filepath, dir)
 
+            if len(relfilepath) > 50:
+                relfilepath = f"...{relfilepath[-50:]}"
+
             try:
                 with tokenize.open(filepath) as file:
                     tokenized = tokenize.generate_tokens(file.readline)
                     tokens = [t for t in tokenized if t.type in TOKEN_WHITELIST]
                     token_count = len(tokens)
                     line_count = len(set([t.start[0] for t in tokens]))
-                    table.append(FileData(
-                        relfilepath,
-                        line_count,
-                        token_count,
-                        token_count / line_count if line_count else 0,
-                        language_type[file_extension],
-                    ))
-            except tokenize.TokenError:
-                pass
+            except (tokenize.TokenError, IndentationError, SyntaxError):
+                token_count = -1
+                line_count = -1
+            finally:
+                table.append(FileData(
+                    relfilepath,
+                    line_count,
+                    token_count,
+                    token_count / line_count if line_count else 0,
+                    language_type[file_extension],
+                ))
 
     return sorted(table, key=lambda x: -x.line_count)
 
@@ -81,7 +86,8 @@ def main(args: List[str] = sys.argv[1:]) -> None:
     table = gen_dim_table(args[0] if len(args) else os.getcwd())
 
     print(tabulate([headers] + [x.expand() for x in table], headers="firstrow", floatfmt=".2f"))
-    print(f"\nTotal Line Count: {sum([x.line_count for x in table])}")
+    print(f"\nFile count: {len(table)}")
+    print(f"Total Line Count: {sum([x.line_count for x in table])}")
     print(f"Total Token Count: {sum([x.token_count for x in table])}")
 
 
