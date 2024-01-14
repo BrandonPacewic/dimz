@@ -35,7 +35,7 @@ class FileData:
 def gen_filetypes() -> Tuple[set, dict[str, str]]:
     with open(f"{MODULE_DIR}/language_extensions.json", "r", encoding="utf-8") as file:
         data = json.load(file)
-    
+
     return set([x for x in data.keys()]), data
 
 
@@ -57,7 +57,7 @@ def gen_dim_table(dir: str | None) -> List[FileData]:
         for filename in files:
             file_extension = f".{filename.split('.')[-1]}"
 
-            if not file_extension in valid_extensions:
+            if file_extension not in valid_extensions:
                 continue
 
             filepath = os.path.join(path, filename)
