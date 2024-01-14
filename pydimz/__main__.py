@@ -68,7 +68,21 @@ def gen_dim_table(dir: str | None) -> List[FileData]:
                 relfilepath = os.path.relpath(filepath, walk_path)
 
             if len(relfilepath) > 50:
-                relfilepath = f"...{relfilepath[-50:]}"
+                segments = []
+                count = 0
+
+                for x in reversed(relfilepath.split("/")):
+                    if not len(segments):
+                        segments.append(x)
+                        count = len(x)
+                        continue
+
+                    if count + len(x) <= 45:
+                        segments.append(x)
+                        count += len(x)
+
+                segments.append("...")
+                relfilepath = "/".join(reversed(segments))
 
             try:
                 with tokenize.open(filepath) as file:
@@ -76,15 +90,17 @@ def gen_dim_table(dir: str | None) -> List[FileData]:
                     tokens = [t for t in tokenized if t.type in TOKEN_WHITELIST]
                     token_count = len(tokens)
                     line_count = len(set([t.start[0] for t in tokens]))
+                    token_per_line = token_count / line_count if line_count else 0
             except (tokenize.TokenError, IndentationError, SyntaxError):
                 token_count = -1
                 line_count = -1
+                token_per_line = -1
             finally:
                 table.append(FileData(
                     relfilepath,
                     line_count,
                     token_count,
-                    token_count / line_count if line_count else 0,
+                    token_per_line,
                     language_type[file_extension],
                 ))
 
