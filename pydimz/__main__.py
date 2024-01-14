@@ -39,11 +39,21 @@ def gen_filetypes() -> Tuple[set, dict[str, str]]:
     return set([x for x in data.keys()]), data
 
 
-def gen_dim_table(dir: str = os.getcwd()) -> List[FileData]:
+def gen_dim_table(dir: str | None) -> List[FileData]:
     valid_extensions, language_type = gen_filetypes()
     table: List[FileData] = []
 
-    for path, _, files in os.walk(dir):
+    if dir:
+        if dir[-1] != "/":
+            sep = "/"
+        else:
+            sep = ""
+
+        walk_path = dir
+    else:
+        walk_path = os.getcwd()
+
+    for path, _, files in os.walk(walk_path):
         for filename in files:
             file_extension = f".{filename.split('.')[-1]}"
 
@@ -51,7 +61,11 @@ def gen_dim_table(dir: str = os.getcwd()) -> List[FileData]:
                 continue
 
             filepath = os.path.join(path, filename)
-            relfilepath = os.path.relpath(filepath, dir)
+
+            if dir:
+                relfilepath = f"{dir}{sep}{os.path.relpath(filepath, walk_path)}"
+            else:
+                relfilepath = os.path.relpath(filepath, walk_path)
 
             if len(relfilepath) > 50:
                 relfilepath = f"...{relfilepath[-50:]}"
@@ -83,10 +97,11 @@ def main(args: List[str] = sys.argv[1:]) -> None:
         sys.exit(1)
 
     headers = ["File Name", "Lines", "Tokens", "Tokens / Line", "Language"]
-    table = gen_dim_table(args[0] if len(args) else os.getcwd())
+    table = gen_dim_table(args[0] if len(args) else None)
+    file_count = len(table)
 
     print(tabulate([headers] + [x.expand() for x in table], headers="firstrow", floatfmt=".2f"))
-    print(f"\nFile count: {len(table)}")
+    print(f"\nFile count: {file_count}")
     print(f"Total Line Count: {sum([x.line_count for x in table])}")
     print(f"Total Token Count: {sum([x.token_count for x in table])}")
 
