@@ -1,4 +1,5 @@
 include pydimz/**/*.py
+include pydimz/language_extensions.json
 include COPYRIGHT.txt
 include LICENSE.txt
 include README.md
