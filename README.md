@@ -4,18 +4,26 @@ CLI tool for counting the number of lines of code in any given directory.
 
 ```
 $ dimz
-File Name                Lines    Tokens    Tokens / Line
----------------------  -------  --------  ---------------
-pydimz/__main__.py          38       326             8.58
-setup.py                    35       134             3.83
-tools/autopep8_all.py       15        83             5.53
-pydimz/__init__.py           3         9             3.00
+File Name                       Lines    Tokens    Tokens / Line  Language
+----------------------------  -------  --------  ---------------  ----------
+pydimz/__main__.py                 67       509             7.60  Python
+build/lib/pydimz/__main__.py       67       509             7.60  Python
+pydimz/test.py                     39       255             6.54  Python
+build/lib/pydimz/test.py           39       255             6.54  Python
+setup.py                           35       134             3.83  Python
+tools/autopep8_all.py              15        83             5.53  Python
+pydimz/__init__.py                  3         9             3.00  Python
+build/lib/pydimz/__init__.py        3         9             3.00  Python
+push_pypi.sh                        2        11             5.50  Shell
+test.sh                             2         4             2.00  Shell
 
-Total Line Count: 91
+File count: 10
+Total Line Count: 272
+Total Token Count: 1778
 ```
 
 > [!NOTE]
-> pydimz only counts actual lines of not. Not whitespace. This means that if it tells you that you have a 100,000 line C project, you really did write 100,000 lines of C.
+> pydimz only counts actual lines of code. Not whitespace. This means that if it tells you that you have a 100,000 line C project, you really did write 100,000 lines of C.
 
 ## License
 
