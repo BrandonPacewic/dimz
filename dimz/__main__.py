@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: MIT
 
 """
-pydimz - CLI tool for counting the number of lines of code in any given project.
+dimz - CLI tool for counting lines of code.
 """
 
 import os
@@ -17,6 +17,7 @@ from typing import List, Tuple
 
 MODULE_DIR = os.path.dirname(__file__)
 TOKEN_WHITELIST = [token.OP, token.NAME, token.NUMBER, token.STRING]
+LONGEST_FILE_DIR = 40
 
 
 @dataclass
@@ -67,7 +68,7 @@ def gen_dim_table(dir: str | None) -> List[FileData]:
             else:
                 relfilepath = os.path.relpath(filepath, walk_path)
 
-            if len(relfilepath) > 50:
+            if len(relfilepath) > LONGEST_FILE_DIR:
                 segments = []
                 count = 0
 
@@ -77,7 +78,7 @@ def gen_dim_table(dir: str | None) -> List[FileData]:
                         count = len(x)
                         continue
 
-                    if count + len(x) <= 45:
+                    if count + len(x) <= LONGEST_FILE_DIR - 5:
                         segments.append(x)
                         count += len(x)
 
@@ -92,9 +93,9 @@ def gen_dim_table(dir: str | None) -> List[FileData]:
                     line_count = len(set([t.start[0] for t in tokens]))
                     token_per_line = token_count / line_count if line_count else 0
             except (tokenize.TokenError, IndentationError, SyntaxError):
-                token_count = -1
-                line_count = -1
-                token_per_line = -1
+                token_count = -0
+                line_count = -0
+                token_per_line = -0
             finally:
                 table.append(FileData(
                     relfilepath,

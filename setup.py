@@ -5,7 +5,7 @@ import setuptools
 import sys
 
 try:
-    import pydimz
+    import dimz
 except ImportError:
     print("Error importing pylines")
     sys.exit(1)
@@ -20,7 +20,7 @@ with open("README.md", "r", encoding="utf-8") as file:
 def main() -> None:
     setuptools.setup(
         name="dimz",
-        version=pydimz.__version__,
+        version=dimz.__version__,
         author="Brandon Pacewic",
         description="",
         long_description_content_type="text/markdown",
@@ -30,11 +30,11 @@ def main() -> None:
             "Programming Language :: Python :: 3",
             "License :: OSI Approved :: MIT License",
         ],
-        url="https://github.com/BrandonPacewic/pydimz",
-        packages=["pydimz"],
+        url="https://github.com/BrandonPacewic/dimz",
+        packages=["dimz"],
         entry_points={
             "console_scripts": [
-                "dimz=pydimz.__main__:main",
+                "dimz=dimz.__main__:main",
             ],
         },
         python_requires=">=3.10",
